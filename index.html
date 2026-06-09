@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>会议合照生成器</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="asset-panel" aria-label="素材库">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">内部工具</p>
+            <h1>会议合照生成器</h1>
+          </div>
+          <button class="icon-button" id="resetDemoButton" type="button" title="恢复示例素材">
+            ↻
+          </button>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="素材类型">
+          <button class="tab is-active" type="button" data-library-tab="people">参会人员</button>
+          <button class="tab" type="button" data-library-tab="locations">参会地址</button>
+        </div>
+
+        <section class="library-section is-active" id="peopleLibrary">
+          <label class="upload-tile">
+            <input id="peopleUpload" type="file" accept="image/*" multiple />
+            <span>上传人员照片</span>
+          </label>
+          <div class="asset-grid" id="peopleGrid"></div>
+        </section>
+
+        <section class="library-section" id="locationsLibrary">
+          <label class="upload-tile">
+            <input id="locationUpload" type="file" accept="image/*" multiple />
+            <span>上传地址照片</span>
+          </label>
+          <div class="asset-grid" id="locationGrid"></div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <div class="control-strip">
+          <div class="control-group">
+            <span class="control-label">站位</span>
+            <div class="segmented" data-mode-group="layoutMode">
+              <button type="button" data-mode-value="seated">座位</button>
+              <button type="button" data-mode-value="standing">站位</button>
+              <button type="button" data-mode-value="conference">会议桌</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">衣服</span>
+            <div class="segmented" data-mode-group="clothingMode">
+              <button type="button" data-mode-value="formal">正式</button>
+              <button type="button" data-mode-value="smart">休闲</button>
+              <button type="button" data-mode-value="unified">统一</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">表情</span>
+            <div class="segmented" data-mode-group="expressionMode">
+              <button type="button" data-mode-value="focused">专注</button>
+              <button type="button" data-mode-value="warm">微笑</button>
+              <button type="button" data-mode-value="confident">精神</button>
+            </div>
+          </div>
+
+          <label class="screen-upload">
+            <input id="screenUpload" type="file" accept="image/*" />
+            <span id="screenUploadLabel">上传屏幕内容</span>
+          </label>
+        </div>
+
+        <section class="preview-area" aria-label="合照预览">
+          <div class="preview-toolbar">
+            <div class="status-stack">
+              <span class="status-dot" id="statusDot"></span>
+              <span id="statusText">待选择素材</span>
+            </div>
+            <div class="toolbar-actions">
+              <button class="ghost-button" id="clearSelectionButton" type="button">清空选择</button>
+              <button class="primary-button" id="generateButton" type="button">生成合照</button>
+              <button class="ghost-button" id="downloadButton" type="button">下载结果</button>
+            </div>
+          </div>
+          <canvas id="photoCanvas" width="1800" height="1200"></canvas>
+        </section>
+
+        <section class="generation-panel" aria-label="智能生成结果">
+          <div class="prompt-card">
+            <div class="card-head">
+              <span>提示词预览</span>
+              <small id="modelStatus">模型配置读取中</small>
+            </div>
+            <textarea id="promptPreview" readonly></textarea>
+          </div>
+          <div class="result-card">
+            <div class="card-head">
+              <span>最终合照</span>
+              <small id="resultStatus">等待生成</small>
+            </div>
+            <div class="result-frame">
+              <img id="generatedImage" alt="最终合照" hidden />
+              <span id="resultPlaceholder">选择素材并生成后显示</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="selection-dock" aria-label="当前选择">
+          <div class="dock-item">
+            <span class="dock-value" id="selectedPeopleCount">0</span>
+            <span class="dock-label">人员</span>
+          </div>
+          <div class="dock-item">
+            <span class="dock-value" id="selectedLocationName">未选择</span>
+            <span class="dock-label">地址</span>
+          </div>
+          <div class="dock-item">
+            <span class="dock-value" id="selectedLayoutName">座位</span>
+            <span class="dock-label">站位</span>
+          </div>
+          <div class="dock-item">
+            <span class="dock-value" id="selectedClothingName">正式商务</span>
+            <span class="dock-label">衣服</span>
+          </div>
+          <div class="dock-item">
+            <span class="dock-value" id="selectedExpressionName">自然微笑</span>
+            <span class="dock-label">表情</span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
